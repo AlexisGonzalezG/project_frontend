@@ -8,38 +8,12 @@ class Modal_info extends Component{
         super();
 
         this.state ={
-            empleado_info:[]
         }
 
     }
 
-    consulta_empleado = () => {
-
-        let data = {
-            id_empleado:this.props.id_empleado
-        }
-
-            const requestOptions = {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            };
-
-            fetch("http://localhost:8000/api/consulta_empleado", requestOptions)
-                .then(response => response.json())
-                .then((response) => {
-
-                    if(response.ok == 100){
-                        this.setState({empleado_info:response.datos});
-                    }
-                    
-                })
-                .catch(e => console.log(e));
-
-    };
-
     componentDidMount() {
-        this.consulta_empleado(); 
+        this.props.consulta_empleado(); 
     };
 
     render(){
@@ -53,6 +27,7 @@ class Modal_info extends Component{
                         <ModalBody>
                           <Row>
                             <div className='col-sm-12'>
+                            <button type="button" className="btn btn-link" onClick={this.props.showModalHabilidad.bind(this)}>Agregar habilidad +</button>
                             <table className="table table-responsive table-striped table-bordered text-center" width={'100%'}>
                                         <thead className="table-primary">
                                             <tr>
@@ -61,7 +36,7 @@ class Modal_info extends Component{
                                             </tr>
                                         </thead>
                                         <tbody>
-                                {this.state.empleado_info?this.state.empleado_info.map((objetos) =>( 
+                                {this.props.empleado_info?this.props.empleado_info.map((objetos) =>( 
 
                                         <tr>
                                         <td className="border" style={{ minWidth:'300px' }}>{ objetos.nombre_habilidad }</td>
